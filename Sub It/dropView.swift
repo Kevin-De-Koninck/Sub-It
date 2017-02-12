@@ -10,26 +10,38 @@ import Cocoa
 
 class DropView: NSView {
     
-    var filePath: String?
-    let expectedExt = ["AVI","FLV","WMV","MP4","MOV","MKV","QT","HEVC","DIVX","XVID"]  //file extensions allowed for Drag&Drop
+    //TODO expand with dropping multiple files 
+    /*
+ 
+     if let boards = board as? [String]{
+        for brd in boards {
+        }
+     }
+     
+     
+     in the 'performDragOperation' function fill array filepaths IF it is an allowed filetype or folder
+     to check: use the 'checkExtension' to make a private array so you can cross reference the arrays
+     
+     in the checkExtension function, we must check: if one of the files is allowed, return true, but keep an array which files are allowed
+ 
+ */
+    
+    
+    var filePath: String? // TODO make array
+    let expectedExt = ["AVI","FLV","WMV","MP4","MOV","MKV","QT","HEVC","DIVX","XVID"]  // file extensions allowed for Drag&Drop
+    let backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.05).cgColor
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.05).cgColor
-        
         register(forDraggedTypes: [NSFilenamesPboardType, NSURLPboardType])
     }
     
-//    override func draw(_ dirtyRect: NSRect) {
-//        super.draw(dirtyRect)
-//        // Drawing code here.
-//    }
-    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        
+        self.wantsLayer = true
+        self.layer?.backgroundColor = backgroundColor
+
         
         // dash customization parameters
         let dashHeight: CGFloat = 5
@@ -49,9 +61,10 @@ class DropView: NSView {
     
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         if checkExtension(sender) == true {
-            self.layer?.backgroundColor = NSColor.blue.cgColor
+            self.layer?.backgroundColor = NSColor(red: 50.0/255, green: 140.0/255, blue: 255.0/255, alpha: 0.2).cgColor
             return .copy
         } else {
+            self.layer?.backgroundColor = NSColor(red: 255.0/255, green: 0.0/255, blue: 0.0/255, alpha: 0.2).cgColor
             return NSDragOperation()
         }
     }
@@ -61,21 +74,30 @@ class DropView: NSView {
             let path = board[0] as? String
             else { return false }
         
-        let suffix = URL(fileURLWithPath: path).pathExtension
-        for ext in self.expectedExt {
-            if ext.lowercased() == suffix {
+        var isDir: ObjCBool = false
+        let fm = FileManager()
+        if fm.fileExists(atPath: path, isDirectory: &isDir) {
+            if(isDir.boolValue){
                 return true
+            } else {
+                let suffix = URL(fileURLWithPath: path).pathExtension
+                for ext in self.expectedExt {
+                    if ext.lowercased() == suffix {
+                        return true
+                    }
+                }
             }
         }
+
         return false
     }
     
     override func draggingExited(_ sender: NSDraggingInfo?) {
-        self.layer?.backgroundColor = NSColor.gray.cgColor
+        self.layer?.backgroundColor = backgroundColor
     }
     
     override func draggingEnded(_ sender: NSDraggingInfo?) {
-        self.layer?.backgroundColor = NSColor.gray.cgColor
+        self.layer?.backgroundColor = backgroundColor
     }
     
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {

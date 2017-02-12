@@ -670,7 +670,7 @@ Enter the following command in the Terminal app and follow the instructions. Whe
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="arrowDown" id="sSD-7Y-rx1"/>
                             </imageView>
-                            <customView appearanceType="aqua" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0wS-hc-gLs" customClass="DropView" customModule="Sub_It" customModuleProvider="target">
+                            <customView autoresizesSubviews="NO" focusRingType="none" appearanceType="aqua" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0wS-hc-gLs" customClass="DropView" customModule="Sub_It" customModuleProvider="target">
                                 <rect key="frame" x="21" y="20" width="291" height="203"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>

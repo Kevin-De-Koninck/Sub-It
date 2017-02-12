@@ -28,8 +28,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillFinishLaunching(_ notification: Notification) {
         PFMoveToApplicationsFolderIfNecessary()
     }
-
-    app
     
 }
 
