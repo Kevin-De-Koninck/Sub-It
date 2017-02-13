@@ -49,11 +49,9 @@ class ViewController: NSViewController {
     }
     
     func somethingWasDropped(notif: AnyObject) {
-        print(drop.filePath!)
-        print(subIt.getCommand())
-        
-        execute(commmandAsynchronous: subIt.getCommand() + "'" + drop.filePath! + "'" )
-        
+        var command = subIt.getCommand()
+        for path in drop.filePaths { command += "'" + path + "' " }
+        execute(commmandAsynchronous: command)
     }
     
     override func viewWillAppear() {
@@ -108,11 +106,14 @@ class ViewController: NSViewController {
                     let receivedStr = s.components(separatedBy: "\n")[0]
                     var str = receivedStr.replacingOccurrences(of: "/ ", with: "\n")
                     
+                    print(str)
+                    
                     //After we receive "1 video collected / 0 video ignored / 0 error" we start downloading
                     if(receivedStr != str){ str = "Downloading subtitles" }
 
                     //After we receive something that starts with "downloaded" then we 'freeze' the output for a couple of seconds
-                    if(String(str.characters.prefix(10)) == "Downloaded"){
+                    if(String(str.characters.prefix(4)) == "Some") { } // ignore messages that start with 'some'
+                    else if(String(str.characters.prefix(10)) == "Downloaded"){
                         DJProgressHUD.showStatus(str, from: self.view)
                         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
                             DJProgressHUD.dismiss()

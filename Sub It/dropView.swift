@@ -10,26 +10,12 @@ import Cocoa
 
 class DropView: NSView {
     
-    //TODO expand with dropping multiple files 
-    /*
- 
-     if let boards = board as? [String]{
-        for brd in boards {
-        }
-     }
-     
-     
-     in the 'performDragOperation' function fill array filepaths IF it is an allowed filetype or folder
-     to check: use the 'checkExtension' to make a private array so you can cross reference the arrays
-     
-     in the checkExtension function, we must check: if one of the files is allowed, return true, but keep an array which files are allowed
- 
- */
-    
-    
-    var filePath: String? // TODO make array
-    let expectedExt = ["AVI","FLV","WMV","MP4","MOV","MKV","QT","HEVC","DIVX","XVID"]  // file extensions allowed for Drag&Drop
+
+    var filePaths = [String]()
+    let expectedExt = ["AVI","FLV","WMV","MP4","MOV","MKV","QT","HEVC","DIVX","XVID"]  // file extensions allowed fornDropping
     let backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.05).cgColor
+    
+    private var allowedArray = [Bool]()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -42,7 +28,6 @@ class DropView: NSView {
         self.wantsLayer = true
         self.layer?.backgroundColor = backgroundColor
 
-        
         // dash customization parameters
         let dashHeight: CGFloat = 5
         let dashLength: CGFloat = 10
@@ -60,6 +45,11 @@ class DropView: NSView {
     }
     
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        
+        //Reset on new drag
+        self.allowedArray = [Bool]()
+        self.filePaths = [String]()
+        
         if checkExtension(sender) == true {
             self.layer?.backgroundColor = NSColor(red: 50.0/255, green: 140.0/255, blue: 255.0/255, alpha: 0.2).cgColor
             return .copy
@@ -71,25 +61,32 @@ class DropView: NSView {
     
     fileprivate func checkExtension(_ drag: NSDraggingInfo) -> Bool {
         guard let board = drag.draggingPasteboard().propertyList(forType: "NSFilenamesPboardType") as? NSArray,
-            let path = board[0] as? String
+            let paths = board as? [String]
             else { return false }
-        
-        var isDir: ObjCBool = false
-        let fm = FileManager()
-        if fm.fileExists(atPath: path, isDirectory: &isDir) {
-            if(isDir.boolValue){
-                return true
-            } else {
-                let suffix = URL(fileURLWithPath: path).pathExtension
-                for ext in self.expectedExt {
-                    if ext.lowercased() == suffix {
-                        return true
+
+        for path in paths {
+            var isAllowed = false
+            var isDir: ObjCBool = false
+            let fm = FileManager()
+            if fm.fileExists(atPath: path, isDirectory: &isDir) {
+                if(isDir.boolValue){
+                    isAllowed = true
+                } else {
+                    let suffix = URL(fileURLWithPath: path).pathExtension
+                    for ext in self.expectedExt {
+                        if ext.lowercased() == suffix {
+                            isAllowed = true
+                        }
                     }
                 }
             }
+            allowedArray.append(isAllowed)
         }
-
+        
+        //If one element is allowed, pass everything (we'll handle this un-allowed file later)
+        for check in allowedArray { if check { return true } }
         return false
+ 
     }
     
     override func draggingExited(_ sender: NSDraggingInfo?) {
@@ -102,11 +99,18 @@ class DropView: NSView {
     
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         guard let pasteboard = sender.draggingPasteboard().propertyList(forType: "NSFilenamesPboardType") as? NSArray,
-            let path = pasteboard[0] as? String
+            let paths = pasteboard as? [String]
             else { return false }
         
-        //GET YOUR FILE PATH !!
-        self.filePath = path
+        var index = 0
+        for path in paths {
+            
+            //Append path to array if the file type was allowed
+            if allowedArray[index] {
+                self.filePaths.append(path)
+            }
+            index = index + 1
+        }
         
         //post notification
         NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "somethingWasDropped"), object: nil) as Notification)
