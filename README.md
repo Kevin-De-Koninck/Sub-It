@@ -12,6 +12,7 @@ If a yellow package button is visible on the main screen, click on it and follow
 
 # ToDo
 These features will come:
+- Ad blocker: Based on a friend of mine's script -> Filter all ads out of the downloaded subtitles.
 - file association: right-click on your movie and select 'open with Sub It' will start the program and start downloading your subs.
 - Menu bar status app: Drag your files the the icon in the menu bar and start downloading your subtitles.
 - Cron job installation: see file association. Option to install a cron job to check your movie folder and download missing subtitles every time interval.
