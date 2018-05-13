@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import DJProgressHUD_OSX
 
 class InstallationGuideViewController: NSViewController {
     
@@ -118,9 +117,9 @@ class InstallationGuideViewController: NSViewController {
         default: cmd = "export PATH=$PATH:/usr/local/bin && " + INSTALLATION_COMMANDS["ytdl"]!
         }
         
-        DJProgressHUD.showStatus("   Installing\nPlease wait...", from: self.view)
+        //DJProgressHUD.showStatus("   Installing\nPlease wait...", from: self.view)
         _ = subIt.execute(commandSynchronous: cmd)
-        DJProgressHUD.dismiss()
+        //DJProgressHUD.dismiss()
         installButton.isEnabled = false
     }
     

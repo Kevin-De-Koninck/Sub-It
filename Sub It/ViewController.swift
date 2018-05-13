@@ -10,7 +10,6 @@
 
 
 import Cocoa
-import DJProgressHUD_OSX
 
 class ViewController: NSViewController {
 
@@ -114,13 +113,13 @@ class ViewController: NSViewController {
                     //After we receive something that starts with "downloaded" then we 'freeze' the output for a couple of seconds
                     if(String(str.characters.prefix(4)) == "Some") { } // ignore messages that start with 'some'
                     else if(String(str.characters.prefix(10)) == "Downloaded"){
-                        DJProgressHUD.showStatus(str, from: self.view)
+                        //DJProgressHUD.showStatus(str, from: self.view)
                         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-                            DJProgressHUD.dismiss()
+                            //DJProgressHUD.dismiss()
                         })
                     //otherwise we just output the received text
                     } else {
-                        DJProgressHUD.showStatus(str, from: self.view)
+                        //DJProgressHUD.showStatus(str, from: self.view)
                     }
                 }
                 outHandle.waitForDataInBackgroundAndNotify()
