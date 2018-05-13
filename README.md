@@ -1,13 +1,12 @@
 # Sub-It
 Small macOS application to download subtitles.
 
-<img src="https://github.com/Kevin-De-Koninck/Sub-It/blob/master/ReadMe%20Resources/MainWindow.png?raw=true" width="400" />
-<img src="https://github.com/Kevin-De-Koninck/Sub-It/blob/master/ReadMe%20Resources/Settings.png?raw=true" width="400" />
+<img src="https://github.com/Kevin-De-Koninck/Sub-It/blob/master/ReadMe%20Resources/MainWindow.png?raw=true" width="400" /><img src="https://github.com/Kevin-De-Koninck/Sub-It/blob/master/ReadMe%20Resources/Settings.png?raw=true" width="400" />
 
 
 # Installation
 
-Download it [here](https://github.com/Kevin-De-Koninck/Sub-It/releases/download/v0.1/Sub.It.app.zip), unzip it and open it.
+Download it [here](https://github.com/Kevin-De-Koninck/Sub-It/releases/download/v0.2/Sub.It.app.zip), unzip it and open it.
 If a yellow package button is visible on the main screen, click on it and follow the guide (to install the dependencies).
 
 # ToDo

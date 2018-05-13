@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A11B1E520A87CB9007D77BF /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11B1E420A87CB9007D77BF /* ProgressView.swift */; };
 		0A244C9A1E50BBE000907042 /* optionsTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244C991E50BBE000907042 /* optionsTextfield.swift */; };
 		0A244C9C1E50C6CB00907042 /* dropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A244C9B1E50C6CB00907042 /* dropView.swift */; };
 		0A3153191CF37A660020DBB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3153181CF37A660020DBB8 /* AppDelegate.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		06FB12017990FFC819383928 /* Pods-Sub It.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sub It.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sub It/Pods-Sub It.debug.xcconfig"; sourceTree = "<group>"; };
+		0A11B1E420A87CB9007D77BF /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		0A244C991E50BBE000907042 /* optionsTextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = optionsTextfield.swift; sourceTree = "<group>"; };
 		0A244C9B1E50C6CB00907042 /* dropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dropView.swift; sourceTree = "<group>"; };
 		0A3153151CF37A660020DBB8 /* Sub It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sub It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +126,7 @@
 				0AF763D11E476D4C00403BA1 /* openTerminalButton.swift */,
 				0AF763D51E47C71500403BA1 /* installationGuideTextField.swift */,
 				0A244C9B1E50C6CB00907042 /* dropView.swift */,
+				0A11B1E420A87CB9007D77BF /* ProgressView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -180,7 +183,6 @@
 				0A3153121CF37A660020DBB8 /* Frameworks */,
 				0A3153131CF37A660020DBB8 /* Resources */,
 				A74C311D5C3277F0388523F0 /* [CP] Embed Pods Frameworks */,
-				9D05C236239CF9791F408CA6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -249,28 +251,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sub It-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		9D05C236239CF9791F408CA6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sub It/Pods-Sub It-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A74C311D5C3277F0388523F0 /* [CP] Embed Pods Frameworks */ = {
@@ -279,9 +269,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Sub It/Pods-Sub It-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ITSwitch/ITSwitch.framework",
+				"${BUILT_PRODUCTS_DIR}/LetsMove/LetsMove.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ITSwitch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LetsMove.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -308,6 +303,7 @@
 				0A59C26E1E3D01A700E40A2B /* WindowController.swift in Sources */,
 				0A3153191CF37A660020DBB8 /* AppDelegate.swift in Sources */,
 				0A59C2741E3D0C0E00E40A2B /* SubIt.swift in Sources */,
+				0A11B1E520A87CB9007D77BF /* ProgressView.swift in Sources */,
 				0AF763CF1E474D2A00403BA1 /* InstallationGuideViewController.swift in Sources */,
 				0AF763D41E47B90D00403BA1 /* InstallationGuideTexts.swift in Sources */,
 			);

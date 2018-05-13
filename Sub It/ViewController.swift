@@ -10,7 +10,6 @@
 
 
 import Cocoa
-import DJProgressHUD_OSX
 
 class ViewController: NSViewController {
 
@@ -19,16 +18,15 @@ class ViewController: NSViewController {
     @IBOutlet weak var refreshInstallationBtn: NSButton!
     @IBOutlet weak var drop: DropView!
 
+    @IBOutlet weak var logoBtn: NSButton!
+    
+    @IBOutlet weak var progressView: ProgressView!
+    @IBOutlet weak var progressTitle: NSTextField!
+    @IBOutlet weak var progressDetails: NSTextField!
     
     
     //global variables
     var subIt = SubIt()
-    
-    
-    
-    
-    
-
 
     override func awakeFromNib() {
         if self.view.layer != nil {
@@ -43,6 +41,7 @@ class ViewController: NSViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(openSettingsView), name: NSNotification.Name(rawValue: "openSettingsView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(somethingWasDropped), name: NSNotification.Name(rawValue: "somethingWasDropped"), object: nil)
 
+        dismissProgressIndicator()
     }
     func openSettingsView(notif: AnyObject) {
         self.performSegue(withIdentifier: "settingsSegue", sender: self)
@@ -77,7 +76,26 @@ class ViewController: NSViewController {
 //        installationGuideViewSetUp(activate: true)  //TODO - remove (is for testing purposes)
     }
     
+    func enableAll(enabled: Bool){
+        settingsBtn.isEnabled = enabled
+        logoBtn.isEnabled = enabled
+    }
     
+    func showProgressIndicator(title: String, details: String) {
+        self.enableAll(enabled: false)
+        progressTitle.stringValue = title
+        progressDetails.stringValue = details
+        progressView.isHidden = false
+        progressTitle.isHidden = false
+        progressDetails.isHidden = false
+    }
+    
+    func dismissProgressIndicator() {
+        self.enableAll(enabled: true)
+        progressView.isHidden = true
+        progressTitle.isHidden = true
+        progressDetails.isHidden = true
+    }
     
     func execute(commmandAsynchronous: String){
         
@@ -114,13 +132,13 @@ class ViewController: NSViewController {
                     //After we receive something that starts with "downloaded" then we 'freeze' the output for a couple of seconds
                     if(String(str.characters.prefix(4)) == "Some") { } // ignore messages that start with 'some'
                     else if(String(str.characters.prefix(10)) == "Downloaded"){
-                        DJProgressHUD.showStatus(str, from: self.view)
+                        self.showProgressIndicator(title: "Finished!", details: str)
                         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-                            DJProgressHUD.dismiss()
+                            self.dismissProgressIndicator()
                         })
                     //otherwise we just output the received text
                     } else {
-                        DJProgressHUD.showStatus(str, from: self.view)
+                        self.showProgressIndicator(title: str, details: "")
                     }
                 }
                 outHandle.waitForDataInBackgroundAndNotify()
